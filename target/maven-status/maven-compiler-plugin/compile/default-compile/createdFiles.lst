@@ -1,0 +1,13 @@
+id\com\ewaste\controller\KategoriController.class
+id\com\ewaste\controller\HistoryController.class
+id\com\ewaste\view\HistoryPanel.class
+id\com\ewaste\model\Penjemputan.class
+id\com\ewaste\controller\PenjemputanController.class
+id\com\ewaste\view\KategoriPanel.class
+id\com\ewaste\db\DatabaseConnection.class
+id\com\ewaste\view\HistoryPanel$1.class
+id\com\ewaste\model\History.class
+id\com\ewaste\model\Kategori.class
+id\com\ewaste\MainApp.class
+id\com\ewaste\view\MainFrame.class
+id\com\ewaste\view\PenjemputanPanel.class
