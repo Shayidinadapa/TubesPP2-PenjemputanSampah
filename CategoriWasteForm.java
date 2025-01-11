@@ -3,20 +3,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AddWasteForm {
+public class CategoriWasteForm {
     public static void showForm() {
-        JFrame frame = new JFrame("Add Waste");
+        JFrame frame = new JFrame("Categori sampah");
         frame.setSize(300, 200);
         frame.setLayout(new GridLayout(3, 2, 10, 10));
 
-        JLabel categoryLabel = new JLabel("Category:");
-        JLabel descriptionLabel = new JLabel("Description:");
+        JLabel categoryLabel = new JLabel("Categori:");
+        JLabel descriptionLabel = new JLabel("Deskripsi:");
 
         String[] categories = {"Sampah Organik", "Sampah Anorganik", "Sampah B3"};
         JComboBox<String> categoryComboBox = new JComboBox<>(categories);
         JTextField descriptionField = new JTextField();
 
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = new JButton("Simpan");
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -7,7 +7,7 @@ public class MainMenu {
     public static void main(String[] args) {
         JFrame frame = new JFrame("E-Waste");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 500);
+        frame.setSize(600, 800);
         frame.getContentPane().setBackground(Color.DARK_GRAY);
         frame.setLayout(new GridLayout(8, 1, 10, 10));
 
@@ -20,14 +20,14 @@ public class MainMenu {
         addWasteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddWasteForm.showForm();
+                CategoriWasteForm.showForm();    
             }
         });
 
         viewWasteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ViewWasteTable.showTable();
+                ViewWasteTable.showTable(args);
             }
         });
 
