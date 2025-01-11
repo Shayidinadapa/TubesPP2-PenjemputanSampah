@@ -1,19 +1,21 @@
+package View;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ViewWasteTable {
+public class ViewWasteTable extends ViewFormTable {
     public static void showTable(String[] args) {
         JFrame frame = new JFrame("View Waste");
         frame.setSize(600, 400);
 
-        String[] columnNames = {"ID", "Category", "Description", "Waktu"};
+        String[] columnNames = {"ID", "Jenis Penjemputan", "Alamat", "Category", "Description", "Waktu"};
         Object[][] data = {
-            {"1", "Sampah Organik", "Daun kering", "08:00"},
-            {"2", "Sampah Anorganik", "Botol plastik", "10:00"},
-            {"3", "Sampah B3", "Baterai bekas", "12:00"}
+            {"1", "Truck", "bandung", "Sampah organik", "Daun kering", "08:00"},
+            {"2", "Truck", "Jakarta", "sampah Anorganik", "Botol plastik", "10:00"},
+            {"3", "Truck", "Bekasi", "Sampah B3" ,"Baterai bekas", "12:00"}
         };
 
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
@@ -28,7 +30,7 @@ public class ViewWasteTable {
         isiFormButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame addFrame = new JFrame("Add Waste");
+                JFrame addFrame = new JFrame("Mengirim Permintaan Penjemputan Sampah");
                 addFrame.setSize(400, 300);
                 addFrame.setLayout(new GridBagLayout());
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -38,17 +40,19 @@ public class ViewWasteTable {
                 JLabel jenisLabel = new JLabel("Jenis Penjemputan:");
                 JLabel alamatLabel = new JLabel("Alamat:");
                 JLabel categoryLabel = new JLabel("Category:");
+                JLabel deskripsiLabel = new JLabel("Description:");
                 JLabel waktuLabel = new JLabel("Waktu Penjemputan:");
 
                 JTextField jenisField = new JTextField();
                 JTextField alamatField = new JTextField();
                 String[] categories = {"Sampah Organik", "Sampah Anorganik", "Sampah B3"};
                 JComboBox<String> categoryComboBox = new JComboBox<>(categories);
+                JTextField deskripsiField = new JTextField();
                 JTextField waktuField = new JTextField();
 
                 JButton saveButton = new JButton("Submit");
 
-                // Layout for ID
+                // Layout for Jenis
                 gbc.gridx = 0;
                 gbc.gridy = 0;
                 addFrame.add(jenisLabel, gbc);
@@ -57,7 +61,7 @@ public class ViewWasteTable {
                 gbc.gridy = 0;
                 addFrame.add(jenisField, gbc);
 
-                // Layout for Category
+                // Layout for alamat
                 gbc.gridx = 0;
                 gbc.gridy = 1;
                 addFrame.add(alamatLabel, gbc);
@@ -66,7 +70,7 @@ public class ViewWasteTable {
                 gbc.gridy = 1;
                 addFrame.add(alamatField, gbc);
 
-                // Layout for Description
+                // Layout for category
                 gbc.gridx = 0;
                 gbc.gridy = 2;
                 addFrame.add(categoryLabel, gbc);
@@ -75,18 +79,27 @@ public class ViewWasteTable {
                 gbc.gridy = 2;
                 addFrame.add(categoryComboBox, gbc);
 
-                // Layout for Waktu Penjemputan
+                // Layout for Description
                 gbc.gridx = 0;
                 gbc.gridy = 3;
-                addFrame.add(waktuLabel, gbc);
+                addFrame.add(deskripsiLabel, gbc);
 
                 gbc.gridx = 1;
                 gbc.gridy = 3;
+                addFrame.add(deskripsiField, gbc);
+
+                // Layout for Waktu Penjemputan
+                gbc.gridx = 0;
+                gbc.gridy = 4;
+                addFrame.add(waktuLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 4;
                 addFrame.add(waktuField, gbc);
 
                 // Layout for Save Button
                 gbc.gridx = 0;
-                gbc.gridy = 4;
+                gbc.gridy = 5;
                 gbc.gridwidth = 2;
                 addFrame.add(saveButton, gbc);
 
@@ -97,12 +110,13 @@ public class ViewWasteTable {
                         String jenis = jenisField.getText();
                         String alamat = alamatField.getText();
                         String category = (String) categoryComboBox.getSelectedItem();
+                        String deskripsi = deskripsiField.getText();
                         String waktu = waktuField.getText();
 
-                        if (jenis.isEmpty() || alamat.isEmpty() || waktu.isEmpty()) {
+                        if (jenis.isEmpty() || alamat.isEmpty() ||  deskripsi.isEmpty() || waktu.isEmpty()) {
                             JOptionPane.showMessageDialog(addFrame, "All fields must be filled out.");
                         } else {
-                            model.addRow(new Object[]{model.getRowCount() + 1, jenis, alamat, category, waktu});
+                            model.addRow(new Object[]{model.getRowCount() + 1, jenis, alamat, category, deskripsi, waktu});
                             JOptionPane.showMessageDialog(addFrame, "Data added successfully.");
                             addFrame.dispose();
                         }
@@ -126,12 +140,14 @@ public class ViewWasteTable {
 
                 // Get data from selected row
                 String id = table.getValueAt(selectedRow, 0).toString();
-                String category = table.getValueAt(selectedRow, 1).toString();
-                String description = table.getValueAt(selectedRow, 2).toString();
-                String waktu = table.getValueAt(selectedRow, 3).toString();
+                String jenis = table.getValueAt(selectedRow, 1).toString();
+                String alamat = table.getValueAt(selectedRow, 2).toString();
+                String category = table.getValueAt(selectedRow, 3).toString();
+                String description = table.getValueAt(selectedRow, 4).toString();
+                String waktu = table.getValueAt(selectedRow, 5).toString();
 
                 // Create Edit Form
-                JFrame editFrame = new JFrame("Edit Waste");
+                JFrame editFrame = new JFrame("Edit mengirim Penjemputan Sampah");
                 editFrame.setSize(400, 300);
                 editFrame.setLayout(new GridBagLayout());
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -139,20 +155,24 @@ public class ViewWasteTable {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
 
                 JLabel idLabel = new JLabel("ID:");
+                JLabel jenisLabel = new JLabel("Jenis Penjemputan:");
+                JLabel alamatLabel = new JLabel("Alamat:");
                 JLabel categoryLabel = new JLabel("Category:");
                 JLabel descriptionLabel = new JLabel("Description:");
                 JLabel waktuLabel = new JLabel("Waktu:");
 
                 JTextField idField = new JTextField(id);
+                JTextField jenisField = new JTextField(jenis);
+                JTextField alamatField = new JTextField(alamat);
                 String[] categories = {"Sampah Organik", "Sampah Anorganik", "Sampah B3"};
                 JComboBox<String> categoryComboBox = new JComboBox<>(categories);
                 categoryComboBox.setSelectedItem(category);
                 JTextField descriptionField = new JTextField(description);
                 JTextField waktuField = new JTextField(waktu);
 
-                JButton saveButton = new JButton("Save");
+                JButton saveButton = new JButton("Simpan");
 
-                // Layout for ID
+                // Layout for Id
                 gbc.gridx = 0;
                 gbc.gridy = 0;
                 editFrame.add(idLabel, gbc);
@@ -161,36 +181,54 @@ public class ViewWasteTable {
                 gbc.gridy = 0;
                 editFrame.add(idField, gbc);
 
-                // Layout for Category
+                // Layout for Jenis
                 gbc.gridx = 0;
                 gbc.gridy = 1;
-                editFrame.add(categoryLabel, gbc);
+                editFrame.add(jenisLabel, gbc);
 
                 gbc.gridx = 1;
                 gbc.gridy = 1;
+                editFrame.add(jenisField, gbc);
+
+                // Layout for Alamat
+                gbc.gridx = 0;
+                gbc.gridy = 2;
+                editFrame.add(alamatLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 2;
+                editFrame.add(alamatField, gbc);
+
+                // Layout for Category
+                gbc.gridx = 0;
+                gbc.gridy = 3;
+                editFrame.add(categoryLabel, gbc);
+
+                gbc.gridx = 1;
+                gbc.gridy = 3;
                 editFrame.add(categoryComboBox, gbc);
 
                 // Layout for Description
                 gbc.gridx = 0;
-                gbc.gridy = 2;
+                gbc.gridy = 4;
                 editFrame.add(descriptionLabel, gbc);
 
                 gbc.gridx = 1;
-                gbc.gridy = 2;
+                gbc.gridy = 4;
                 editFrame.add(descriptionField, gbc);
 
                 // Layout untuk Waktu
                 gbc.gridx = 0;
-                gbc.gridy = 3;
+                gbc.gridy = 5;
                 editFrame.add(waktuLabel, gbc);
 
                 gbc.gridx = 1;
-                gbc.gridy = 3;
+                gbc.gridy = 5;
                 editFrame.add(waktuField, gbc);
 
                 // Layout for Save Button
                 gbc.gridx = 0;
-                gbc.gridy = 4;
+                gbc.gridy = 6;
                 gbc.gridwidth = 2;
                 editFrame.add(saveButton, gbc);
 
@@ -199,18 +237,22 @@ public class ViewWasteTable {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String newId = idField.getText();
+                        String newJenis = jenisField.getText();
+                        String newAlamat = alamatField.getText();
                         String newCategory = (String) categoryComboBox.getSelectedItem();
                         String newDescription = descriptionField.getText();
                         String newWaktu = waktuField.getText();
 
-                        if (newId.isEmpty() || newDescription.isEmpty()) {
+                        if (newId.isEmpty() || newJenis.isEmpty() || newAlamat.isEmpty() || newDescription.isEmpty() || newWaktu.isEmpty()) {
                             JOptionPane.showMessageDialog(editFrame, "All fields must be filled out.");
                         } else {
                             // Update table data
                             table.setValueAt(newId, selectedRow, 0);
-                            table.setValueAt(newCategory, selectedRow, 1);
-                            table.setValueAt(newDescription, selectedRow, 2);
-                            table.setValueAt(newWaktu, selectedRow, 3);
+                            table.setValueAt(newJenis, selectedRow, 1);
+                            table.setValueAt(newAlamat, selectedRow, 2);
+                            table.setValueAt(newCategory, selectedRow, 3);
+                            table.setValueAt(newDescription, selectedRow, 4);
+                            table.setValueAt(newWaktu, selectedRow, 5);
 
                             JOptionPane.showMessageDialog(editFrame, "Data updated successfully.");
                             editFrame.dispose();
